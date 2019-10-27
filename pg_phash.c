@@ -41,8 +41,8 @@ Datum phash_hamming(PG_FUNCTION_ARGS) {
     varchar2[size2] = '\0';
 
     // Convert number strings to ulong64
-    ulong64 long1 = strtoull(varchar1, NULL, 10);
-    ulong64 long2 = strtoull(varchar2, NULL, 10);
+    ulong64 long1 = strtoull(varchar1, NULL, 16);
+    ulong64 long2 = strtoull(varchar2, NULL, 16);
 
     // Compute hamming distance
     int32 ret = ph_hamming_distance(long1, long2);
