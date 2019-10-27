@@ -115,3 +115,88 @@ char *append(const char *input, const char c)
     /* return new string (for dealloc use free().) */
     return newString;
 }
+
+
+char* convert_hex_to_binary(char hex[64]) {
+
+    char * result;
+        result = malloc(sizeof(char)*256);
+
+    strcpy(result, "");
+
+
+    int length = strlen(hex);
+    for(int i=0;i<length;i++)
+      {
+        char c = hex[i];
+
+        switch(c) {
+
+           case '0'  :
+              strcat(result, "0000");
+              break;
+
+            case '1'  :
+              strcat(result, "0001");
+              break;
+
+            case '2'  :
+                strcat(result, "0010");
+                break;
+
+            case '3'  :
+              strcat(result, "0011");
+              break;
+
+           case '4'  :
+              strcat(result, "0100");
+              break;
+
+            case '5'  :
+              strcat(result, "0101");
+              break;
+
+            case '6'  :
+                strcat(result, "0110");
+                break;
+
+            case '7'  :
+              strcat(result, "0111");
+              break;
+
+           case '8'  :
+              strcat(result, "1000");
+              break;
+
+            case '9'  :
+              strcat(result, "1001");
+              break;
+
+            case 'a'  :
+                strcat(result, "1010");
+                break;
+
+            case 'b'  :
+              strcat(result, "1011");
+              break;
+
+           case 'c'  :
+              strcat(result, "1100");
+              break;
+
+            case 'd'  :
+              strcat(result, "1101");
+              break;
+
+            case 'e'  :
+                strcat(result, "1110");
+                break;
+
+            case 'f'  :
+                strcat(result, "1111");
+                break;
+        }
+      }
+
+    return result;
+}
