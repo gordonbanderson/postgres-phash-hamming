@@ -10,6 +10,10 @@ typedef unsigned __int64 ulong64;
 typedef unsigned long long ulong64;
 #endif
 
+#define ERR_MESSAGE__NO_MEM "Not enough memory!"
+#define allocator(element, type) _allocator(element, sizeof(type))
+
+
 #ifdef PG_MODULE_MAGIC
 PG_MODULE_MAGIC;
 #endif
@@ -54,7 +58,7 @@ Datum phash_hamming(PG_FUNCTION_ARGS) {
     pHash, the open source perceptual hash library
     Copyright (C) 2009 Aetilius, Inc.
     All rights reserved.
- 
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -82,4 +86,32 @@ int32 ph_hamming_distance(const ulong64 hash1, const ulong64 hash2){
     x = (x & m2) + ((x >> 2) & m2);
     x = (x + (x >> 4)) & m4;
     return (x * h01)>>56;
+}
+
+
+/** Allocator function (safe alloc) */
+void *_allocator(size_t element, size_t typeSize)
+{
+    void *ptr = NULL;
+    /* check alloc */
+    if( (ptr = calloc(element, typeSize)) == NULL)
+    {printf(ERR_MESSAGE__NO_MEM); exit(1);}
+    /* return pointer */
+    return ptr;
+}
+
+/** Append function (safe mode) */
+char *append(const char *input, const char c)
+{
+    char *newString, *ptr;
+
+    /* alloc */
+    newString = allocator((strlen(input) + 2), char);
+    /* Copy old string in new (with pointer) */
+    ptr = newString;
+    for(; *input; input++) {*ptr = *input; ptr++;}
+    /* Copy char at end */
+    *ptr = c;
+    /* return new string (for dealloc use free().) */
+    return newString;
 }
