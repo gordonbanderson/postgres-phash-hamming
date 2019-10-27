@@ -35,17 +35,16 @@ char *append(const char *input, const char c)
 
 int hamming_distance(char* hex1, char* hex2)
 {
-
-/*
-length=strlen(v2);
-      for(i=0;i<length;i++)
+    int count = 0;
+    int length=strlen(hex2);
+      for(int i=0;i<length;i++)
       {
-            if(v1[i]!=v2[i])
+            if(hex1[i]!=hex2[i])
             {
                   count++;
             }
       }
-      */
+      return count;
 }
 
 
@@ -131,9 +130,6 @@ char* convert_hex_to_binary(char hex[64]) {
                 strcat(result, "1111");
                 break;
         }
-
-            printf("%s\n",result);
-
       }
 
     return result;
@@ -141,18 +137,26 @@ char* convert_hex_to_binary(char hex[64]) {
 
 
 int main(int argc, const char * argv[]){
-    const char * x = convert_hex_to_binary("08fe3eff1287038303f701c711e570f760c067f093f88ff8dfff01bf000007fc");
-    printf("%s\n",x);
+     char * h1 = convert_hex_to_binary("ffe0ff800c0147f1c1f1c0f0447ffc700c60047e7c3e7d3e7d9e0181ffff0014");
 
+
+     char * h2 = convert_hex_to_binary("1fc01fc8787c70b687b3c7b1c73185340f001f001f3efe3ffe3f0e3c00017fd8");
+    // printf("%s\n",h1);
+     //printf("%s\n",h2);
+       int hd = hamming_distance(h1,h2);
+    printf("%i\n",hd);
+
+   /*
+
+*/
 /*
-    char *input = "Ciao Mondo"; // i am italian :), this is "Hello World"
-        char c = '!';
-        char *newString;
+ ffe0ff800c0147f1c1f1c0f0447ffc700c60047e7c3e7d3e7d9e0181ffff0014
+ ffe07f80070047f9c0f1c0f04c7ffc700470047e7c3e7d3e3d9e0581ffff0014
+ 1fc01fc078dc21df0785c791c7918f9e07801f001f3e7f3ffe3f061c00803fdf
+ 1fc01fc078de219f0789c791c7918f9e07801f001f3e7f3fff3f071c00021fde
+ 1fc01fc0787c718f07b7c791cf9185940f001f001f3efe3ffe3f0e1c00807fda
+ 1fc01fc8787c70b687b3c7b1c73185340f001f001f3efe3ffe3f0e3c00017fd8
+ 3fc01fcc29ce43d89f838f838781859f07800f801f9f3f9f3f9f079d00021fbe
 
-        newString = append(input, c);
-        printf("%s\n",newString);
-
-        free(newString);
-        newString = NULL;
         */
 }
