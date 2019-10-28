@@ -18,7 +18,7 @@ typedef unsigned long long ulong64;
 PG_MODULE_MAGIC;
 #endif
 
-int32 ph_hamming_distance(const ulong64 hash1, const ulong64 hash2);
+//int32 ph_hamming_distance(const ulong64 hash1, const ulong64 hash2);
 
 PG_FUNCTION_INFO_V1(phash_hamming);
 Datum phash_hamming(PG_FUNCTION_ARGS) {
@@ -44,12 +44,13 @@ Datum phash_hamming(PG_FUNCTION_ARGS) {
     memcpy(varchar2, (void*) VARDATA(ptr2), size2);
     varchar2[size2] = '\0';
 
-    // Convert number strings to ulong64
-    ulong64 long1 = strtoull(varchar1, NULL, 16);
-    ulong64 long2 = strtoull(varchar2, NULL, 16);
+    char * b1 = convert_hex_to_binary(varchar1);
+    char * b2 = convert_hex_to_binary(varchar2);
+
+
 
     // Compute hamming distance
-    int32 ret = ph_hamming_distance(long1, long2);
+    int32 ret = hamming_distance(b1, b2);
 
     PG_RETURN_INT32(ret);
 }
@@ -76,16 +77,18 @@ Datum phash_hamming(PG_FUNCTION_ARGS) {
     D Grant Starkweather - dstarkweather@phash.org
 */
 
-int32 ph_hamming_distance(const ulong64 hash1, const ulong64 hash2){
-    ulong64 x = hash1^hash2;
-    const ulong64 m1  = 0x5555555555555555ULL;
-    const ulong64 m2  = 0x3333333333333333ULL;
-    const ulong64 h01 = 0x0101010101010101ULL;
-    const ulong64 m4  = 0x0f0f0f0f0f0f0f0fULL;
-    x -= (x >> 1) & m1;
-    x = (x & m2) + ((x >> 2) & m2);
-    x = (x + (x >> 4)) & m4;
-    return (x * h01)>>56;
+int32 hamming_distance(char* hex1, char* hex2)
+{
+    int32 count = 0;
+    int length=strlen(hex2);
+      for(int i=0;i<length;i++)
+      {
+            if(hex1[i]!=hex2[i])
+            {
+                  count++;
+            }
+      }
+      return count;
 }
 
 
